@@ -1,7 +1,7 @@
 {
   "name": "eli-chat",
   "version": "0.0.1",
-  "description": "",
+  "description": "Chat with Eli!",
   "main": "index.html",
   "scripts": {
     "start": "open index.html"
@@ -10,6 +10,6 @@
     "@huggingface/transformers": "^3.0.1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Eli Sheldon",
   "license": "MIT"
 }

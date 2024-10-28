@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blank Website</title>
-  <link rel="stylesheet" href="styles/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Website</title>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <!-- Your content here -->
-  <script src="scripts/main.js" type="module"></script>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Chat with "Eli"</h1>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input" aria-label="Chat input">
+          <input type="text" id="message-input" placeholder="Type a message..." aria-label="Type a message" disabled>
+          <button id="send-button" aria-label="Send message" disabled>Send</button>
+      </div>
+    </div>
+    <script type="module" src="scripts/main.js"></script>
 </body>
 </html>

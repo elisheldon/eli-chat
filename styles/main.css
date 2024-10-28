@@ -1,6 +1,107 @@
-/* Add your styles here */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.chat-container {
+  width: 400px;
+  max-width: 90%;
+  height: 600px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chat-header {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.chat-messages {
+  padding: 15px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-message, .assistant-message {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  color: #333;
+}
+
+.assistant-message {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.chat-input {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  align-items: center;
+}
+
+#message-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  margin-right: 10px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+#message-input:focus {
+  border-color: #4CAF50;
+}
+
+#send-button {
+  background-color: #4CAF50;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#send-button:hover {
+  background-color: #3e8e41;
+}
+
+/* Disabled state styling */
+#message-input:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+#send-button:disabled {
+  background-color: #cccccc;  /* Set a grey background for disabled */
+  color: #666666;            /* Set a grey color for disabled text */
+  cursor: not-allowed;
+}
