@@ -1,6 +1,6 @@
-import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.1';
+import * as webllm from "https://esm.run/@mlc-ai/web-llm";
 
-let generator = null;
+let engine;
 const chatMessagesContainer = document.getElementById('chat-messages');
 const messageInputField = document.getElementById('message-input');
 const sendButton = document.getElementById('send-button');
@@ -32,13 +32,34 @@ function displayMessage(message, isUserMessage) {
     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
 }
 
-// Function to load the model asynchronously with a loading indicator
+// Create MLCEngine with custom weights
 async function loadModel() {
-    displayMessage("Loading model, please wait...", false);  // Initial loading message
+    const selectedModel = "Meta-Llama3.2-1B-Instruct-q4f16_1-FT-MLC"
     try {
-        console.log('Loading model...');
-        generator = await pipeline('text-generation', 'elisheldon/Meta-Llama3.2-1B-Instruct-FT', { dtype: 'q4f16', device: 'wasm' });
-        //generator = await pipeline('text-generation', 'onnx-community/Llama-3.2-1B-Instruct-q4f16', { dtype: 'q4f16', device: 'webgpu' });
+        displayMessage('Loading ' + selectedModel + '. Please wait...', false);  // Initial loading message
+        console.log('Loading ' + selectedModel);
+        const appConfig = {
+            model_list: 
+            [
+                {
+                    model: "https://huggingface.co/elisheldon/Meta-Llama3.2-1B-Instruct-FT-q4f16_1-MLC",
+                    model_id: "Meta-Llama3.2-1B-Instruct-q4f16_1-FT-MLC",
+                    model_lib:
+                      webllm.modelLibURLPrefix +
+                      webllm.modelVersion +
+                      "/Llama-3.2-1B-Instruct-q4f16_1-ctx4k_cs1k-webgpu.wasm",
+                    vram_required_MB: 879.04,
+                    low_resource_required: true,
+                    overrides: {
+                      context_window_size: 4096,
+                    },
+                }
+            ]
+        }
+        engine = await webllm.CreateMLCEngine(
+            selectedModel,
+            { appConfig: appConfig },
+        );
         console.log('Model loaded.');
         displayMessage("Model loaded! You can start chatting.", false);
 
@@ -51,8 +72,7 @@ async function loadModel() {
     }
 }
 
-// Call the model loading function at the start of the script
-loadModel();
+await loadModel();
 
 // Function to generate a response from the AI model
 async function generateResponse() {
@@ -73,8 +93,14 @@ async function generateResponse() {
 
         setTimeout(async () => {
             try {
-                const output = await generator(messages, { max_new_tokens: 24 });
-                const response = output[0].generated_text.at(-1).content;
+                // Generate response using Web-LLM
+                const reply = await engine.chat.completions.create({
+                    messages,
+                    temperature: 0.4,
+                    max_tokens: 64,
+                });
+                console.log(reply)
+                const response = reply.choices[0].message.content;
                 addAssistantMessage(response);
 
                 chatMessagesContainer.removeChild(typingIndicator);
