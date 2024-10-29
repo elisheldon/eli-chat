@@ -38,6 +38,7 @@ async function loadModel() {
     try {
         console.log('Loading model...');
         generator = await pipeline('text-generation', 'elisheldon/Meta-Llama3.2-1B-Instruct-FT', { dtype: 'q4f16', device: 'wasm' });
+        //generator = await pipeline('text-generation', 'onnx-community/Llama-3.2-1B-Instruct-q4f16', { dtype: 'q4f16', device: 'webgpu' });
         console.log('Model loaded.');
         displayMessage("Model loaded! You can start chatting.", false);
 
@@ -72,7 +73,7 @@ async function generateResponse() {
 
         setTimeout(async () => {
             try {
-                const output = await generator(messages, { max_new_tokens: 128 });
+                const output = await generator(messages, { max_new_tokens: 24 });
                 const response = output[0].generated_text.at(-1).content;
                 addAssistantMessage(response);
 
