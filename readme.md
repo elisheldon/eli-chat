@@ -13,7 +13,7 @@ This repo is a learning playground for fine-tuning LLMs (currently Llama 3.2 1B 
 7. Published model to https://huggingface.co/elisheldon/Meta-Llama3.2-1B-Instruct-FT which is consumed by this web code
 
 # First attempt issues
-1. WebGPU issues. Current WebGPU implementation is mostly broken Only the q4fp16 quantized model can be run on WebGPU without a memory error or garbage output (at least on my M2 Pro), but the quality of the response is poor as compared with running the exact same model on WASM.
+1. WebGPU issues. Current WebGPU implementation is mostly broken Only the q4fp16 quantized model can be run on WebGPU without a memory error or garbage output (at least on an M2 Pro), but the quality of the response is poor as compared with running the exact same model on WASM.
 2. WASM speed. Current WASM implementation runs very slowly, although it does successfully respond with reasonable responses.
 3. Small base model. Llama 3.2 1B Instruct was chosen to avoid 2GB protobuf limits in the onnx stack, but fine-tuning results are much better with fine-tuned Llama 3.2 3B Instruct run as GGUF outside of the browser context.
 
@@ -23,3 +23,6 @@ This repo is a learning playground for fine-tuning LLMs (currently Llama 3.2 1B 
 `mlc_llm convert_weight Meta-Llama3.2-1B-Instruct-FT/ --quantization q4f16_1 -o Meta-Llama3.2-1B-Instruct-FT-q4f16_1-MLC`
 `mlc_llm gen_config Meta-Llama3.2-1B-Instruct-FT/ --quantization q4f16_1 --conv-template llama-3_1 -o Meta-Llama3.2-1B-Instruct-FT-q4f16_1-MLC`
 3. Created basic chat app using webllm and deployed to https://eli-chat.pages.dev/
+
+# Second attempt issues
+1. Small base model. This issue persists, as the Llama 3.2 3B Instruct model and repeating the above flow caused memory issues on an M2 Pro.
