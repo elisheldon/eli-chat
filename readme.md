@@ -1,6 +1,6 @@
 This repo is a learning playground for fine-tuning LLMs (currently Llama 3.2 1B / 3B Instruct) and running them locally (with Transformers.js v3 or Web-LLM).
 
-# First attempt process
+# First attempt process (branch: transformers)
 1. Downloaded full Google Chat transcript between my wife and me using Google Takeout
 2. Processed conversation data and created train.yaml pointing to that data
 3. Used torchtune with train.yaml config and full finetune to finetune Llama 3.2 1B Instruct on my data
@@ -17,8 +17,9 @@ This repo is a learning playground for fine-tuning LLMs (currently Llama 3.2 1B 
 2. WASM speed. Current WASM implementation runs very slowly, although it does successfully respond with reasonable responses.
 3. Small base model. Llama 3.2 1B Instruct was chosen to avoid 2GB protobuf limits in the onnx stack, but fine-tuning results are much better with fine-tuned Llama 3.2 3B Instruct run as GGUF outside of the browser context.
 
-# Second attempt process
+# Second attempt process (branch: webllm)
 1. Started with the full finetune of Llama 3.2 1B Instruct from above, prior to any ONNX conversion, optimization or quanitzation
 2. Followed steps [here](https://llm.mlc.ai/docs/deploy/webllm.html#bring-your-own-model-variant) to convert weights to MLC format, then uploaded to HF
-`mlc_llm convert_weight Meta-Llama3.2-1B-Instruct-FT/ --quantization q4f16_1 -o Meta-Llama3.2-3B-Instruct-FT-q4f16_1-MLC`
-`mlc_llm gen_config Meta-Llama3.2-1B-Instruct-FT/ --quantization q4f16_1 --conv-template llama-3_1 -o Meta-Llama3.2-3B-Instruct-FT-q4f16_1-MLC`
+`mlc_llm convert_weight Meta-Llama3.2-1B-Instruct-FT/ --quantization q4f16_1 -o Meta-Llama3.2-1B-Instruct-FT-q4f16_1-MLC`
+`mlc_llm gen_config Meta-Llama3.2-1B-Instruct-FT/ --quantization q4f16_1 --conv-template llama-3_1 -o Meta-Llama3.2-1B-Instruct-FT-q4f16_1-MLC`
+3. Created basic chat app using webllm and deployed to https://eli-chat.pages.dev/
